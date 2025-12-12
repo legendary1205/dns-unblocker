@@ -341,7 +341,7 @@ install_sniproxy(){
         if [ -e sniproxy-0.6.1 ]; then
             rm -rf sniproxy-0.6.1
         fi
-        download /tmp/sniproxy-0.6.1.tar.gz https://github.com/dlundquist/sniproxy/archive/refs/tags/0.6.1.tar.gz
+        download /tmp/sniproxy-0.6.1.tar.gz https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy/sniproxy-0.6.1.tar.gz
         tar -zxf sniproxy-0.6.1.tar.gz
         cd sniproxy-0.6.1
     fi
