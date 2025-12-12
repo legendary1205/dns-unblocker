@@ -288,7 +288,7 @@ install_dnsmasq(){
         yes|cp -f /tmp/dnsmasq-2.91/src/dnsmasq /usr/sbin/dnsmasq && chmod +x /usr/sbin/dnsmasq
     fi
     [ ! -f /usr/sbin/dnsmasq ] && echo -e "[${red}Error${plain}] There was a problem installing dnsmasq, please check." && exit 1
-    download /etc/dnsmasq.d/custom_netflix.conf https://raw.githubusercontent.com/myxuchangbin/dnsmasq_sniproxy_install/master/dnsmasq.conf
+    download /etc/dnsmasq.d/custom_netflix.conf https://github.com/legendary1205/dns-unblocker/blob/main/dnsmasq.conf
     download /tmp/proxy-domains.txt https://raw.githubusercontent.com/legendary1205/dns-unblocker/refs/heads/main/proxy-domains.txt
     for domain in $(cat /tmp/proxy-domains.txt); do
         printf "address=/${domain}/${publicip}\n"\
