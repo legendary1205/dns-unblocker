@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 export PATH
 
-# check os
+
 if [[ -f /etc/redhat-release ]]; then
     release="centos"
 elif cat /etc/issue | grep -Eqi "debian"; then
@@ -69,10 +69,4 @@ if [ $oldip != $newip ]; then
     mv -f /tmp/tmpautochangeip.log /tmp/autochangeip.log
 fi
 
-#说明
-#本脚本为方便一些动态IP解锁主机，实现自动更新dnsmasq解析记录
-#不带参数：bash autochangeip.sh  自动更新为本机公网IP
-#带参数：bash autochangeip.sh ddns.example.com  自动更新为ddns域名所解析的IP
-#使用crontab定时执行，运行命令 crontab -e 添加定时，例如： 
-# */5 * * * *  bash autochangeip.sh 
-#上面示例为每5分钟执行一次，实际配置中前面不要加#符号，注意修改正确脚本文件路径
+
