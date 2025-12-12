@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-#本脚本仅做编译sniproxy使用
+
 
 red='\033[0;31m'
 green='\033[0;32m'
@@ -147,8 +147,7 @@ if [ -e sniproxy-0.6.1 ]; then
     rm -rf sniproxy-0.6.1
 fi
 download /tmp/sniproxy-0.6.1.tar.gz https://github.com/dlundquist/sniproxy/archive/refs/tags/0.6.1.tar.gz
-#最新代码需要autoconf版本至少为2.71，暂时使用0.6.1版本源码
-#参考编译链接：https://www.cnblogs.com/hucat/articles/16828816.html
+
 tar -zxf sniproxy-0.6.1.tar.gz
 cd sniproxy-0.6.1
 if check_sys packageManager yum; then
