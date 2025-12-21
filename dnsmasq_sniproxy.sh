@@ -348,7 +348,7 @@ install_sniproxy(){
     if check_sys packageManager yum; then
         if [[ ${fastmode} = "1" ]]; then
             if [[ ${bit} = "x86_64" ]]; then
-                download /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm https://github.com/legendary1205/dns-unblocker/raw/refs/heads/main/sniproxy/sniproxy-0.6.1-1.el8.x86_64.rpm
+                download /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy/sniproxy_sniproxy-0.6.1-1.el8.x86_64.rpm
                 error_detect_depends "yum -y install /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm"
                 rm -f /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm
             else
@@ -383,13 +383,13 @@ install_sniproxy(){
         else
             env NAME="sniproxy" DEBFULLNAME="sniproxy" DEBEMAIL="sniproxy@example.com" EMAIL="sniproxy@example.com" ./autogen.sh && ./configure --prefix=/usr && make && make install
         fi  
-        download /etc/systemd/system/sniproxy.service https://raw.githubusercontent.com/legendary1205/dns-unblocker/refs/heads/main/sniproxy.service
+        download /etc/systemd/system/sniproxy.service https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy/sniproxy.service
         systemctl daemon-reload
         [ ! -f /etc/systemd/system/sniproxy.service ] && echo -e "[${red}Error${plain}] There was a problem downloading the Sniproxy startup file, please check." && exit 1
     fi
     [ ! -f /usr/sbin/sniproxy ] && echo -e "[${red}Error${plain}] There was a problem installing Sniproxy, please check." && exit 1
-    download /etc/sniproxy.conf https://raw.githubusercontent.com/legendary1205/dns-unblocker/refs/heads/main/sniproxy.conf
-    download /tmp/sniproxy-domains.txt https://raw.githubusercontent.com/legendary1205/dns-unblocker/refs/heads/main/proxy-domains.txt
+    download /etc/sniproxy.conf https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy.conf
+    download /tmp/sniproxy-domains.txt https://github.com/legendary1205/dns-unblocker/blob/main/proxy-domains.txt
     sed -i -e 's/\./\\\./g' -e 's/^/    \.\*/' -e 's/$/\$ \*/' /tmp/sniproxy-domains.txt || (echo -e "[${red}Error:${plain}] Failed to configuration sniproxy." && exit 1)
     sed -i '/table {/r /tmp/sniproxy-domains.txt' /etc/sniproxy.conf || (echo -e "[${red}Error:${plain}] Failed to configuration sniproxy." && exit 1)
     if [ ! -e /var/log/sniproxy ]; then
