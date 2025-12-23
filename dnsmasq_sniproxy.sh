@@ -446,34 +446,21 @@ hello(){
 }
 
 help(){
-
-hello
-
-echo "How to use: bash $0 [-h] [-i] [-f] [-id] [-fd] [-is] [-fs] [-u] [-ud] [-us]"
-
-echo ""
-
-echo " -h , --help Display help information"
-
-echo " -i , --install Install Dnsmasq + SNI Proxy"
-
-echo " -f , --fastinstall Quickly install Dnsmasq + SNI Proxy"
-
-echo " -id, --installdnsmasq Install only Dnsmasq"
-
-echo " -id, --installdnsmasq Quickly install Dnsmasq"
-
-echo " -is, --installsniproxy Install only SNI Proxy"
-
-echo " -fs, --fastinstallsniproxy Quickly install SNI Proxy"
-
-echo " -u , --uninstall Uninstall Dnsmasq + SNI Proxy"
-
-echo " -ud, --undnsmasq Uninstall Dnsmasq"
-
-echo " -us, --unsniproxy Uninstall SNI Proxy
-
-echo ""}
+    hello
+    echo "使用方法：bash $0 [-h] [-i] [-f] [-id] [-fd] [-is] [-fs] [-u] [-ud] [-us]"
+    echo ""
+    echo "  -h , --help                显示帮助信息"
+    echo "  -i , --install             安装 Dnsmasq + SNI Proxy"
+    echo "  -f , --fastinstall         快速安装 Dnsmasq + SNI Proxy"
+    echo "  -id, --installdnsmasq      仅安装 Dnsmasq"
+    echo "  -id, --installdnsmasq      快速安装 Dnsmasq"
+    echo "  -is, --installsniproxy     仅安装 SNI Proxy"
+    echo "  -fs, --fastinstallsniproxy 快速安装 SNI Proxy"
+    echo "  -u , --uninstall           卸载 Dnsmasq + SNI Proxy"
+    echo "  -ud, --undnsmasq           卸载 Dnsmasq"
+    echo "  -us, --unsniproxy          卸载 SNI Proxy"
+    echo ""
+}
 
 install_all(){
     ports="53 80 443"
@@ -483,9 +470,9 @@ install_all(){
     install_dnsmasq
     install_sniproxy
     echo ""
-    echo -e "${yellow}Dnsmasq + SNI Proxy installation complete.！${plain}"
+    echo -e "${yellow}Dnsmasq + SNI Proxy 已完成安装！${plain}"
     echo ""
-    echo -e "${yellow}Change your DNS to $(get_ip) You can now watch Netflix shows.。${plain}"
+    echo -e "${yellow}将您的DNS更改为 $(get_ip) 即可以观看Netflix节目了。${plain}"
     echo ""
 }
 
@@ -518,9 +505,9 @@ only_dnsmasq(){
     done
     install_dnsmasq
     echo ""
-    echo -e "${yellow}Dnsmasq installation complete！${plain}"
+    echo -e "${yellow}Dnsmasq 已完成安装！${plain}"
     echo ""
-    echo -e "${yellow}Change your DNS to $(get_ip) You can now watch Netflix shows.。${plain}"
+    echo -e "${yellow}将您的DNS更改为 $(get_ip) 即可以观看Netflix节目了。${plain}"
     echo ""
 }
 
