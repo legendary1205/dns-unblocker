@@ -241,7 +241,7 @@ compile_dnsmasq(){
         error_detect_depends "yum -y install nettle-devel"
         error_detect_depends "yum -y install gettext"
         error_detect_depends "yum -y install libidn-devel"
-        error_detect_depends "yum -y install libidn2-devel"
+        #error_detect_depends "yum -y install libidn2-devel"
         error_detect_depends "yum -y install libnetfilter_conntrack-devel"
         error_detect_depends "yum -y install dbus-devel"
     elif check_sys packageManager apt; then
@@ -252,7 +252,7 @@ compile_dnsmasq(){
         error_detect_depends "apt -y install nettle-dev"
         error_detect_depends "apt -y install gettext"
         error_detect_depends "apt -y install libidn11-dev"
-        error_detect_depends "apt -y install libidn2-dev"
+        #error_detect_depends "apt -y install libidn2-dev"
         error_detect_depends "apt -y install libnetfilter-conntrack-dev"
         error_detect_depends "apt -y install libdbus-1-dev"
     fi
