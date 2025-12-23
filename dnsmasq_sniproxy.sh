@@ -7,7 +7,7 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] Please use the root user to execute the script!" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] 请使用root用户来执行脚本!" && exit 1
 
 disable_selinux(){
     if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
@@ -263,7 +263,7 @@ compile_dnsmasq(){
 
 install_dnsmasq(){
     netstat -a -n -p | grep LISTEN | grep -P "\d+\.\d+\.\d+\.\d+:53\s+" > /dev/null && echo -e "[${red}Error${plain}] required port 53 already in use\n" && exit 1
-    echo "Install Dnsmasq..."
+    echo "安装Dnsmasq..."
     if check_sys packageManager yum; then
         error_detect_depends "yum -y install dnsmasq"
         if centosversion 6; then
@@ -277,7 +277,7 @@ install_dnsmasq(){
         compile_dnsmasq
         yes|cp -f /tmp/dnsmasq-2.91/src/dnsmasq /usr/sbin/dnsmasq && chmod +x /usr/sbin/dnsmasq
     fi
-    [ ! -f /usr/sbin/dnsmasq ] && echo -e "[${red}Error${plain}] There was a problem installing dnsmasq, please check." && exit 1
+    [ ! -f /usr/sbin/dnsmasq ] && echo -e "[${red}Error${plain}] 安装dnsmasq出现问题，请检查." && exit 1
     download /etc/dnsmasq.d/custom_netflix.conf https://github.com/legendary1205/dns-unblocker/blob/main/dnsmasq.conf
     download /tmp/proxy-domains.txt https://github.com/legendary1205/dns-unblocker/blob/main/proxy-domains.txt
     for domain in $(cat /tmp/proxy-domains.txt); do
@@ -285,7 +285,7 @@ install_dnsmasq(){
         | tee -a /etc/dnsmasq.d/custom_netflix.conf > /dev/null 2>&1
     done
     [ "$(grep -x -E "(conf-dir=/etc/dnsmasq.d|conf-dir=/etc/dnsmasq.d,.bak|conf-dir=/etc/dnsmasq.d/,\*.conf|conf-dir=/etc/dnsmasq.d,.rpmnew,.rpmsave,.rpmorig)" /etc/dnsmasq.conf)" ] || echo -e "\nconf-dir=/etc/dnsmasq.d" >> /etc/dnsmasq.conf
-    echo "Start the Dnsmasq service..."
+    echo "启动 Dnsmasq 服务..."
     if check_sys packageManager yum; then
         if centosversion 6; then
             chkconfig dnsmasq on
@@ -313,7 +313,7 @@ install_sniproxy(){
         netstat -a -n -p | grep LISTEN | grep -P "\d+\.\d+\.\d+\.\d+:${aport}\s+" > /dev/null && echo -e "[${red}Error${plain}] required port ${aport} already in use\n" && exit 1
     done
     install_dependencies
-    echo "Install SNI Proxy..."
+    echo "安装SNI Proxy..."
     if check_sys packageManager yum; then
         rpm -qa | grep sniproxy >/dev/null 2>&1
         if [ $? -eq 0 ]; then
@@ -338,11 +338,11 @@ install_sniproxy(){
     if check_sys packageManager yum; then
         if [[ ${fastmode} = "1" ]]; then
             if [[ ${bit} = "x86_64" ]]; then
-                download /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm hhttps://github.com/legendary1205/dns-unblocker/blob/main/sniproxy-0.6.1-1.el8.x86_64.rpm
+                download /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy-0.6.1-1.el8.x86_64.rpm
                 error_detect_depends "yum -y install /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm"
                 rm -f /tmp/sniproxy-0.6.1-1.el8.x86_64.rpm
             else
-                echo -e "${red}Not supported at present${bit}Please install the kernel using compilation mode!${plain}" && exit 1
+                echo -e "${red}暂不支持${bit}内核，请使用编译模式安装！${plain}" && exit 1
             fi
         else
             if centosversion 6; then
@@ -355,11 +355,11 @@ install_sniproxy(){
         fi
         if centosversion 6; then
             download /etc/init.d/sniproxy https://raw.githubusercontent.com/dlundquist/sniproxy/master/redhat/sniproxy.init && chmod +x /etc/init.d/sniproxy
-            [ ! -f /etc/init.d/sniproxy ] && echo -e "[${red}Error${plain}] There was an issue downloading the Sniproxy startup file; please check it." && exit 1
+            [ ! -f /etc/init.d/sniproxy ] && echo -e "[${red}Error${plain}] 下载Sniproxy启动文件出现问题，请检查." && exit 1
         else
             download /etc/systemd/system/sniproxy.service https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy.service
             systemctl daemon-reload
-            [ ! -f /etc/systemd/system/sniproxy.service ] && echo -e "[${red}Error${plain}] There was an issue downloading the Sniproxy startup file; please check it." && exit 1
+            [ ! -f /etc/systemd/system/sniproxy.service ] && echo -e "[${red}Error${plain}] 下载Sniproxy启动文件出现问题，请检查." && exit 1
         fi
     elif check_sys packageManager apt; then
         if [[ ${fastmode} = "1" ]]; then
@@ -368,16 +368,16 @@ install_sniproxy(){
                 error_detect_depends "dpkg -i --no-debsig /tmp/sniproxy_0.6.1_amd64.deb"
                 rm -f /tmp/sniproxy_0.6.1_amd64.deb
             else
-                echo -e "${red}Not supported at present${bit}Please install the kernel using compilation mode!${plain}" && exit 1
+                echo -e "${red}暂不支持${bit}内核，请使用编译模式安装！${plain}" && exit 1
             fi
         else
             env NAME="sniproxy" DEBFULLNAME="sniproxy" DEBEMAIL="sniproxy@example.com" EMAIL="sniproxy@example.com" ./autogen.sh && ./configure --prefix=/usr && make && make install
         fi  
         download /etc/systemd/system/sniproxy.service https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy.service
         systemctl daemon-reload
-        [ ! -f /etc/systemd/system/sniproxy.service ] && echo -e "[${red}Error${plain}] There was an issue downloading the Sniproxy startup file; please check it." && exit 1
+        [ ! -f /etc/systemd/system/sniproxy.service ] && echo -e "[${red}Error${plain}] 下载Sniproxy启动文件出现问题，请检查." && exit 1
     fi
-    [ ! -f /usr/sbin/sniproxy ] && echo -e "[${red}Error${plain}] There was a problem installing Sniproxy, please check." && exit 1
+    [ ! -f /usr/sbin/sniproxy ] && echo -e "[${red}Error${plain}] 安装Sniproxy出现问题，请检查." && exit 1
     download /etc/sniproxy.conf https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy.conf
     download /tmp/sniproxy-domains.txt https://github.com/legendary1205/dns-unblocker/blob/main/proxy-domains.txt
     sed -i -e 's/\./\\\./g' -e 's/^/    \.\*/' -e 's/$/\$ \*/' /tmp/sniproxy-domains.txt || (echo -e "[${red}Error:${plain}] Failed to configuration sniproxy." && exit 1)
@@ -416,7 +416,7 @@ install_check(){
 }
 
 ready_install(){
-    echo "Check your system..."
+    echo "检测您的系统..."
     if ! install_check; then
         echo -e "[${red}Error${plain}] Your OS is not supported to run it!"
         echo -e "Please change to CentOS 6+/Debian 8+/Ubuntu 16+ and try again."
@@ -440,8 +440,8 @@ ready_install(){
 
 hello(){
     echo ""
-    echo -e "${yellow}Dnsmasq + SNI Proxy self-installation script${plain}"
-    echo -e "${yellow}Support System:  CentOS 6+, Debian8+, Ubuntu16+${plain}"
+    echo -e "${yellow}Dnsmasq + SNI Proxy自助安装脚本${plain}"
+    echo -e "${yellow}支持系统:  CentOS 6+, Debian8+, Ubuntu16+${plain}"
     echo ""
 }
 
@@ -517,9 +517,9 @@ only_sniproxy(){
     ready_install
     install_sniproxy
     echo ""
-    echo -e "${yellow}SNI Proxy Installation complete！${plain}"
+    echo -e "${yellow}SNI Proxy 已完成安装！${plain}"
     echo ""
-    echo -e "${yellow}Resolve the relevant Netflix domain names to $(get_ip) You can now watch Netflix shows.。${plain}"
+    echo -e "${yellow}将Netflix的相关域名解析到 $(get_ip) 即可以观看Netflix节目了。${plain}"
     echo ""
 }
 
@@ -585,8 +585,8 @@ unsniproxy(){
 }
 
 confirm(){
-    echo -e "${yellow}Continue execution? (n: cancel / y: continue)${plain}"
-    read -e -p "(Default: Cancel): " selection
+    echo -e "${yellow}是否继续执行?(n:取消/y:继续)${plain}"
+    read -e -p "(默认:取消): " selection
     [ -z "${selection}" ] && selection="n"
     if [ ${selection} != "y" ]; then
         exit 0
@@ -622,20 +622,20 @@ if [[ $# = 1 ]];then
         ;;
         -u|--uninstall)
         hello
-        echo -e "${yellow}Uninstalling Dnsmasq and SNI Proxy.${plain}"
+        echo -e "${yellow}正在执行卸载Dnsmasq和SNI Proxy.${plain}"
         confirm
         undnsmasq
         unsniproxy
         ;;
         -ud|--undnsmasq)
         hello
-        echo -e "${yellow}Uninstalling Dnsmasq.${plain}"
+        echo -e "${yellow}正在执行卸载Dnsmasq.${plain}"
         confirm
         undnsmasq
         ;;
         -us|--unsniproxy)
         hello
-        echo -e "${yellow}Uninstalling SNI Proxy.${plain}"
+        echo -e "${yellow}正在执行卸载SNI Proxy.${plain}"
         confirm
         unsniproxy
         ;;
