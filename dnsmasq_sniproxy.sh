@@ -364,7 +364,7 @@ install_sniproxy(){
             fi
         fi
         if centosversion 6; then
-            download /etc/init.d/sniproxy https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy/sniproxy.init && chmod +x /etc/init.d/sniproxy
+            download /etc/init.d/sniproxy https://raw.githubusercontent.com/dlundquist/sniproxy/master/redhat/sniproxy.init && chmod +x /etc/init.d/sniproxy
             [ ! -f /etc/init.d/sniproxy ] && echo -e "[${red}Error${plain}] There was a problem downloading the Sniproxy startup file, please check." && exit 1
         else
             download /etc/systemd/system/sniproxy.service https://raw.githubusercontent.com/legendary1205/dns-unblocker/refs/heads/main/sniproxy.service
