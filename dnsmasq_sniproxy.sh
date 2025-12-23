@@ -494,11 +494,11 @@ only_dnsmasq(){
     hello
     ready_install
     inputipcount=1
-    echo -e "Please enter the IP address of the SNIProxy server."
-    read -e -p "(If empty, a public IP address will be automatically obtained.): " inputip
+    echo -e "请输入SNIProxy服务器的IP地址"
+    read -e -p "(为空则自动获取公网IP): " inputip
     while true; do
         if [ "${inputipcount}" == 3 ]; then
-            echo -e "[${red}Error:${plain}] Too many incorrect IP addresses entered，Please run the script again.。"
+            echo -e "[${red}Error:${plain}] IP输入错误次数过多，请重新执行脚本。"
             exit 1
         fi
         if [ -z ${inputip} ]; then
@@ -510,8 +510,8 @@ only_dnsmasq(){
                 publicip=${inputip}
                 break
             else
-                echo -e "Please re-enter the IP address of the SNIProxy server."
-                read -e -p "(If empty, a public IP address will be automatically obtained.): " inputip
+                echo -e "请重新输入SNIProxy服务器的IP地址"
+                read -e -p "(为空则自动获取公网IP): " inputip
             fi
         fi
         inputipcount=`expr ${inputipcount} + 1`
