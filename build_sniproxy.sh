@@ -2,14 +2,17 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-#本脚本仅做编译sniproxy使用
+#=================================================
+# Rapido Server - SNI Proxy Build Script
+# This script is only for compiling sniproxy
+#=================================================
 
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] 请使用root用户来执行脚本!" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] Please use root user to execute the script!" && exit 1
 
 check_sys(){
     local checkType=$1
@@ -101,7 +104,7 @@ error_detect_depends(){
 }
 
 install_dependencies(){
-    echo "安装依赖软件..."
+    echo "Installing dependencies..."
     if check_sys packageManager yum; then
         echo -e "[${green}Info${plain}] Checking the EPEL repository..."
         if [ ! -f /etc/yum.repos.d/epel.repo ]; then
@@ -111,9 +114,9 @@ install_dependencies(){
         [ ! "$(command -v yum-config-manager)" ] && yum install -y yum-utils > /dev/null 2>&1
         [ x"$(yum repolist epel | grep -w epel | awk '{print $NF}')" != x"enabled" ] && yum-config-manager --enable epel > /dev/null 2>&1
         echo -e "[${green}Info${plain}] Checking the EPEL repository complete..."
-            yum_depends=(
-                autoconf automake curl gettext-devel libev-devel pcre-devel perl pkgconfig rpm-build udns-devel
-            )
+        yum_depends=(
+            autoconf automake curl gettext-devel libev-devel pcre-devel perl pkgconfig rpm-build udns-devel
+        )
         for depend in ${yum_depends[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
@@ -140,6 +143,7 @@ install_dependencies(){
         error_detect_depends "apt-get -y install build-essential"
     fi
 }
+
 install_dependencies
 bit=`uname -m`
 cd /tmp
@@ -147,8 +151,8 @@ if [ -e sniproxy-0.6.1 ]; then
     rm -rf sniproxy-0.6.1
 fi
 download /tmp/sniproxy-0.6.1.tar.gz https://github.com/dlundquist/sniproxy/archive/refs/tags/0.6.1.tar.gz
-#最新代码需要autoconf版本至少为2.71，暂时使用0.6.1版本源码
-#参考编译链接：https://www.cnblogs.com/hucat/articles/16828816.html
+# Latest code requires autoconf version at least 2.71, temporarily using 0.6.1 source code
+# Reference compilation link: https://www.cnblogs.com/hucat/articles/16828816.html
 tar -zxf sniproxy-0.6.1.tar.gz
 cd sniproxy-0.6.1
 if check_sys packageManager yum; then
@@ -159,10 +163,10 @@ if check_sys packageManager yum; then
         sed -i "s/\%configure CFLAGS\=\"-I\/usr\/include\/libev\"/\%configure CFLAGS\=\"-fPIC -I\/usr\/include\/libev\"/" redhat/sniproxy.spec
         rpmbuild --define "_sourcedir `pwd`" --define "_topdir /tmp/sniproxy/rpmbuild" --define "debug_package %{nil}" -ba redhat/sniproxy.spec
     fi
-    echo -e "[${green}Info${plain}] sniproxy build complete, Location: /tmp/sniproxy/rpmbuild/RPMS/x86_64/"
+    echo -e "[${green}Info${plain}] Rapido Server: sniproxy build complete, Location: /tmp/sniproxy/rpmbuild/RPMS/x86_64/"
     echo /tmp/sniproxy/rpmbuild/RPMS/x86_64/
 elif check_sys packageManager apt; then
     ./autogen.sh && dpkg-buildpackage
-    echo -e "[${green}Info${plain}] sniproxy build complete, Location: /tmp/"
+    echo -e "[${green}Info${plain}] Rapido Server: sniproxy build complete, Location: /tmp/"
 fi
 rm -rf /tmp/sniproxy-0.6.1/
