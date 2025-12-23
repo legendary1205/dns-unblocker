@@ -2,14 +2,14 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-
+#本脚本仅做编译sniproxy使用
 
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] 请使用root用户来执行脚本!" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] Please use the root user to execute the script!" && exit 1
 
 check_sys(){
     local checkType=$1
@@ -101,7 +101,7 @@ error_detect_depends(){
 }
 
 install_dependencies(){
-    echo "安装依赖软件..."
+    echo "Install software dependencies..."
     if check_sys packageManager yum; then
         echo -e "[${green}Info${plain}] Checking the EPEL repository..."
         if [ ! -f /etc/yum.repos.d/epel.repo ]; then
@@ -146,7 +146,7 @@ cd /tmp
 if [ -e sniproxy-0.6.1 ]; then
     rm -rf sniproxy-0.6.1
 fi
-download /tmp/sniproxy-0.6.1.tar.gz https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy/sniproxy-0.6.1.tar.gz
+download /tmp/sniproxy-0.6.1.tar.gz https://github.com/dlundquist/sniproxy/archive/refs/tags/0.6.1.tar.gz
 
 tar -zxf sniproxy-0.6.1.tar.gz
 cd sniproxy-0.6.1
@@ -165,4 +165,3 @@ elif check_sys packageManager apt; then
     echo -e "[${green}Info${plain}] sniproxy build complete, Location: /tmp/"
 fi
 rm -rf /tmp/sniproxy-0.6.1/
-
