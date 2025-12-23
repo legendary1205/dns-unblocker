@@ -374,7 +374,7 @@ install_sniproxy(){
     elif check_sys packageManager apt; then
         if [[ ${fastmode} = "1" ]]; then
             if [[ ${bit} = "x86_64" ]]; then
-                download /tmp/sniproxy_0.6.1_amd64.deb https://github.com/legendary1205/dns-unblocker/blob/main/sniproxy/sniproxy_0.6.1_amd64.deb
+                download /tmp/sniproxy_0.6.1_amd64.deb https://github.com/myxuchangbin/dnsmasq_sniproxy_install/blob/master/sniproxy/sniproxy_0.6.1_amd64.deb
                 error_detect_depends "dpkg -i --no-debsig /tmp/sniproxy_0.6.1_amd64.deb"
                 rm -f /tmp/sniproxy_0.6.1_amd64.deb
             else
