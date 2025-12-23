@@ -498,7 +498,7 @@ only_dnsmasq(){
     read -e -p "(If empty, a public IP address will be automatically obtained.): " inputip
     while true; do
         if [ "${inputipcount}" == 3 ]; then
-            echo -e "[${red}Error:${plain}] Too many incorrect IP addresses entered. Please run the script again.。"
+            echo -e "[${red}Error:${plain}] Too many incorrect IP addresses entered，Please run the script again.。"
             exit 1
         fi
         if [ -z ${inputip} ]; then
